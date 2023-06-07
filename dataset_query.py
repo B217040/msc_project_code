@@ -38,8 +38,6 @@ if __name__ == '__main__':
     #welsh_dev_dataset = load_data("cy_gb", "validation")
     welsh_test_dataset = load_data("cy_gb", "test")
 
-    print(welsh_test_dataset[0:3])
-
     #train_stats = get_stats(welsh_train_dataset)
     #print('for TRAIN dataset...')
     #print(f'number of pairs = {train_stats[0]}, number of hours = {train_stats[1]}')
@@ -49,6 +47,7 @@ if __name__ == '__main__':
     #print(f'number of pairs = {dev_stats[0]}, number of hours = {dev_stats[1]}')
 
     test_stats = get_stats(welsh_test_dataset)
-    print('for TEST dataset...')
-    print(f'number of pairs = {test_stats[0]}, number of hours = {test_stats[1]}')
-    #print('hello world')
+    
+    with open('dataset_query_results.txt', 'a') as f:
+        f.write('for TEST dataset...')
+        f.write(f'\n number of pairs = {test_stats[0]}, number of hours = {test_stats[1]}')
