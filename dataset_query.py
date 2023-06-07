@@ -32,11 +32,13 @@ def get_stats(dataset):
 
 
 if __name__ == '__main__':
-    print('downloading data...')
+    #print('downloading data...')
 
     #welsh_train_dataset = load_data("cy_gb", "train")
     #welsh_dev_dataset = load_data("cy_gb", "validation")
-    #welsh_test_dataset = load_data("cy_gb", "test")
+    welsh_test_dataset = load_data("cy_gb", "test")
+
+    print(welsh_test_dataset[0:3])
 
     #train_stats = get_stats(welsh_train_dataset)
     #print('for TRAIN dataset...')
@@ -46,7 +48,7 @@ if __name__ == '__main__':
     #print('for DEV dataset...')
     #print(f'number of pairs = {dev_stats[0]}, number of hours = {dev_stats[1]}')
 
-    #test_stats = get_stats(welsh_test_dataset)
-    #print('for TEST dataset...')
-    #print(f'number of pairs = {test_stats[0]}, number of hours = {test_stats[1]}')
-    print('hello world')
+    test_stats = get_stats(welsh_test_dataset)
+    print('for TEST dataset...')
+    print(f'number of pairs = {test_stats[0]}, number of hours = {test_stats[1]}')
+    #print('hello world')
