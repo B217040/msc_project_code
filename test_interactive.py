@@ -1,2 +1,2 @@
-with open('/work/tc046/tc046/pchamp/results', 'a') as f:
-    f.write('testing script on interactive node')
+with open('/work/tc046/tc046/pchamp/results/file_write_test.txt', 'a') as f:
+    f.write('test writing to results file')
