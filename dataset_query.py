@@ -1,6 +1,5 @@
 from datasets import load_dataset
 sampling_rate = 16000 # found in Fleurs paper
-#git test
 
 def load_data(lang, split_type, streaming=False):
     '''
