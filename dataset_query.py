@@ -48,6 +48,6 @@ if __name__ == '__main__':
 
     test_stats = get_stats(welsh_test_dataset)
     
-    with open('dataset_query_results.txt', 'a') as f:
+    with open('/work/tc046/tc046/pchamp/results/dataset_query_results', 'a') as f:
         f.write('for TEST dataset...')
         f.write(f'\n number of pairs = {test_stats[0]}, number of hours = {test_stats[1]}')
