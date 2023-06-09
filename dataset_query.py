@@ -1,4 +1,5 @@
 from datasets import load_dataset
+from datasets import load_from_disk
 sampling_rate = 16000 # found in Fleurs paper
 
 def load_data(lang, streaming=False):
@@ -32,15 +33,23 @@ def get_stats(dataset):
 
 if __name__ == '__main__':
 
-    welsh_data = load_data("cy_gb")
 
-    welsh_train_dataset = welsh_data['train']
-    welsh_dev_dataset = welsh_data['validation']
-    welsh_test_dataset = welsh_data['test']
+    welsh_data_local = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
+    local_test_stats = get_stats(welsh_data_local)
+    print('running stats with local test data...')
+    print(f'number of pairs = {local_test_stats[0]}, number of hours = {local_test_stats[1]}')
 
-    train_stats = get_stats(welsh_train_dataset)
-    dev_stats = get_stats(welsh_dev_dataset)
-    test_stats = get_stats(welsh_test_dataset)
+    '''
+    #welsh_data = load_data("cy_gb")
+
+    #welsh_train_dataset = welsh_data['train']
+    #welsh_dev_dataset = welsh_data['validation']
+    #welsh_test_dataset = welsh_data['test']
+
+    #train_stats = get_stats(welsh_train_dataset)
+    #dev_stats = get_stats(welsh_dev_dataset)
+    #test_stats = get_stats(welsh_test_dataset)
+
     
     with open('/work/tc046/tc046/pchamp/results/dataset_query_results', 'a') as f:
         f.write('for TRAIN dataset...')
@@ -49,3 +58,4 @@ if __name__ == '__main__':
         f.write(f'\n number of pairs = {test_stats[0]}, number of hours = {test_stats[1]}')
         f.write('\n for DEV dataset...')
         f.write(f'\n number of pairs = {dev_stats[0]}, number of hours = {dev_stats[1]}')
+    '''
