@@ -1,15 +1,14 @@
 from datasets import load_dataset
 sampling_rate = 16000 # found in Fleurs paper
 
-def load_data(lang, split_type, streaming=False):
+def load_data(lang, streaming=False):
     '''
     Load Fleurs dataset from huggingface
     :param link: dataset name
     :param lang: langauge in format '[lang]_[region]' - 'cy_gb' or 'ca_es'
-    :param split_type: train, test, or dev
     :return: loaded dataset
     '''
-    dataset = load_dataset("google/fleurs", lang, split=split_type)
+    dataset = load_dataset("google/fleurs", lang)
     return dataset
 
 
@@ -32,22 +31,21 @@ def get_stats(dataset):
 
 
 if __name__ == '__main__':
-    #print('downloading data...')
 
-    #welsh_train_dataset = load_data("cy_gb", "train")
-    #welsh_dev_dataset = load_data("cy_gb", "validation")
-    welsh_test_dataset = load_data("cy_gb", "test")
+    welsh_data = load_data("cy_gb")
 
-    #train_stats = get_stats(welsh_train_dataset)
-    #print('for TRAIN dataset...')
-    #print(f'number of pairs = {train_stats[0]}, number of hours = {train_stats[1]}')
+    welsh_train_dataset = welsh_data['train']
+    welsh_dev_dataset = welsh_data['validation']
+    welsh_test_dataset = welsh_data['test']
 
-    #dev_stats = get_stats(welsh_dev_dataset)
-    #print('for DEV dataset...')
-    #print(f'number of pairs = {dev_stats[0]}, number of hours = {dev_stats[1]}')
-
+    train_stats = get_stats(welsh_train_dataset)
+    dev_stats = get_stats(welsh_dev_dataset)
     test_stats = get_stats(welsh_test_dataset)
     
     with open('/work/tc046/tc046/pchamp/results/dataset_query_results', 'a') as f:
-        f.write('for TEST dataset...')
+        f.write('for TRAIN dataset...')
+        f.write(f'number of pairs = {train_stats[0]}, number of hours = {train_stats[1]}')
+        f.write('\n for TEST dataset...')
         f.write(f'\n number of pairs = {test_stats[0]}, number of hours = {test_stats[1]}')
+        f.write('\n for DEV dataset...')
+        f.write(f'\n number of pairs = {dev_stats[0]}, number of hours = {dev_stats[1]}')

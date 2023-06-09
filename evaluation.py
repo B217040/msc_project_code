@@ -21,7 +21,5 @@ predicted_ids = model.generate(input_features)
 # decode token ids to text
 
 transcription = processor.batch_decode(predicted_ids, skip_special_tokens=False)
-['<|startoftranscript|><|en|><|transcribe|><|notimestamps|> Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel.<|endoftext|>']
 
 transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)
-[' Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel.']
