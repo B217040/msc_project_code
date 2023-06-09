@@ -34,7 +34,7 @@ def make_prediction(sample, processer, model):
 
     return sample
 
-def calculate_WER(eval_data, processer, model)
+def calculate_WER(eval_data, processer, model):
     '''
     Makes predictions on dataset
     Returns WER
@@ -49,6 +49,6 @@ if __name__ == '__main__':
     eval_data = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
 
     processor, model = load_model(model_size)
-    WER = calculate_WER(eval_data, processor, model)
+    WER = calculate_WER(eval_data[0:3], processor, model)
     print('WER of whisper-{model_size} on Welsh FLEURS test set is {WER}')
 
