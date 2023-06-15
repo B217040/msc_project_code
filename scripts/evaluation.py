@@ -1,7 +1,7 @@
 #! /usr/bin/python
 
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
-from datasets import load_dataset
+from datasets import load_from_disk
 import torch
 from evaluate import load
 
@@ -38,7 +38,7 @@ def calculate_WER(result):
     Makes predictions on dataset
     Returns WER
     '''
-    wer = load("/work/tc046/tc046/pchamp/model/wer.py")
+    wer = load("/work/tc046/tc046/pchamp/msc_project_code/scripts/wer.py")
     return 100 * wer.compute(references=result["reference"], predictions=result["prediction"])
 
 if __name__ == '__main__':
@@ -50,6 +50,7 @@ if __name__ == '__main__':
     processor, model = load_model(model_size)
 
     result = testing_data.map(make_predicton) #map applies function to all samples in dataset
+    print(result)
 
     WER = calculate_WER(result)
 
