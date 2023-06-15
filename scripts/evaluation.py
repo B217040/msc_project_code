@@ -38,18 +38,18 @@ def calculate_WER(result):
     Makes predictions on dataset
     Returns WER
     '''
-    
-    wer = load("/work/tc046/tc046/pchamp/model/wer_evaluator")
+    wer = load("/work/tc046/tc046/pchamp/model/wer.py")
     return 100 * wer.compute(references=result["reference"], predictions=result["prediction"])
 
 if __name__ == '__main__':
 
     model_size = 'tiny'
     eval_data = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
+    testing_data = eval_data[0:3]
     
     processor, model = load_model(model_size)
 
-    result = eval_data.map(make_predicton) #map applies function to all samples in dataset
+    result = testing_data.map(make_predicton) #map applies function to all samples in dataset
 
     WER = calculate_WER(result)
 
