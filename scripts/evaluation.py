@@ -9,9 +9,8 @@ def load_model(model_size):
     '''
     Loads model and processor
     '''
-    processor = WhisperProcessor.from_pretrained(f"openai/whisper-{model_size}") #load whisper processer
-    model = WhisperForConditionalGeneration.from_pretrained(f"openai/whisper-{model_size}").to('cuda')
-    model.config.forced_decoder_ids = None # pairs of integers which indicates a mapping from generation indices to token indices
+    processor = WhisperProcessor.from_pretrained(f'/work/tc046/tc046/pchamp/model/whisper_processor_{model_size}') #load whisper processer
+    model = WhisperForConditionalGeneration.from_pretrained(f'/work/tc046/tc046/pchamp/model/whisper_model_{model_size}')
     return processor, model
 
 def make_prediction(sample, processer, model):
@@ -34,21 +33,24 @@ def make_prediction(sample, processer, model):
 
     return sample
 
-def calculate_WER(eval_data, processer, model):
+def calculate_WER(result):
     '''
     Makes predictions on dataset
     Returns WER
     '''
-    result = eval_data.map(make_predicton) #map applies function to all samples in dataset
-    wer = load("wer")
+    
+    wer = load("/work/tc046/tc046/pchamp/model/wer_evaluator")
     return 100 * wer.compute(references=result["reference"], predictions=result["prediction"])
 
 if __name__ == '__main__':
-    
+
     model_size = 'tiny'
     eval_data = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
-
+    
     processor, model = load_model(model_size)
-    WER = calculate_WER(eval_data[0:3], processor, model)
-    print('WER of whisper-{model_size} on Welsh FLEURS test set is {WER}')
 
+    result = eval_data.map(make_predicton) #map applies function to all samples in dataset
+
+    WER = calculate_WER(result)
+
+    print('WER of whisper-{model_size} on Welsh FLEURS test set is {WER}')
