@@ -3,7 +3,7 @@
 print('importing transformers')
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 print('importing datasets')
-from datasets import load_from_disk
+from datasets import load_from_disk, load_dataset
 print('importing torch')
 import torch
 print('importing evaluate')
@@ -50,6 +50,7 @@ if __name__ == '__main__':
     model_size = 'tiny'
     print('loading data...')
     eval_data = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
+    #eval_data = load_dataset("google/fleurs", 'cy_gb', split='test')
 
     testing_data = eval_data[0:3]
     
