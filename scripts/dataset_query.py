@@ -1,4 +1,6 @@
+print('importing load dataset')
 from datasets import load_dataset
+print('importing load from disk')
 from datasets import load_from_disk
 sampling_rate = 16000 # found in Fleurs paper
 
