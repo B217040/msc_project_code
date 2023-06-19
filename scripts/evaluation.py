@@ -1,12 +1,8 @@
 #! /usr/bin/python
 
-print('importing transformers')
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
-print('importing datasets')
-from datasets import load_from_disk, load_dataset
-print('importing torch')
+from datasets import load_from_disk
 import torch
-print('importing evaluate')
 from evaluate import load
 
 def load_model(model_size):
@@ -17,25 +13,26 @@ def load_model(model_size):
     model = WhisperForConditionalGeneration.from_pretrained(f'/work/tc046/tc046/pchamp/model/whisper_model_{model_size}')
     return processor, model
 
-def make_prediction(sample, processer, model):
+def make_prediction(batch):
     '''
     Processes sample audio
     Normalises transcription and adds as entry 'reference' to data dict
     Predicts audio transcription with model and adds as entry 'prediction'
     '''
-    audio = sample["audio"]
+
+    audio = batch["audio"]
     input_features = processor(audio["array"], sampling_rate=audio["sampling_rate"], return_tensors="pt").input_features
     # return_tensors comes from WhisperFeatureExtractor class -> pt is PyTorch format
 
-    sample["reference"] = processor.tokenizer._normalize(sample['raw transcription'])
+    batch["reference"] = processor.tokenizer._normalize(batch['raw_transcription'])
 
     with torch.no_grad(): #used for inference - no backward pass is called, saves memory
         predicted_ids = model.generate(input_features.to("cuda"))[0]
 
     transcription = processor.decode(predicted_ids)
-    sample["prediction"] = processor.tokenizer._normalize(transcription)
+    batch["prediction"] = processor.tokenizer._normalize(transcription)
 
-    return sample
+    return batch
 
 def calculate_WER(result):
     '''
@@ -48,18 +45,13 @@ def calculate_WER(result):
 if __name__ == '__main__':
 
     model_size = 'tiny'
-    print('loading data...')
     eval_data = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
-    #eval_data = load_dataset("google/fleurs", 'cy_gb', split='test')
 
-    testing_data = eval_data[0:3]
-    
-    print('loading processor...')
     processor, model = load_model(model_size)
 
-    result = testing_data.map(make_predicton) #map applies function to all samples in dataset
-    print(result)
+    result = eval_data.map(make_prediction) #map applies function to all samples in dataset
 
     WER = calculate_WER(result)
 
-    print('WER of whisper-{model_size} on Welsh FLEURS test set is {WER}')
+    with open(f'/work/tc046/tc046/pchamp/results/whisper-{model_size}-results.txt', 'a') as f:
+        f.write('WER of whisper-{model_size} on Welsh FLEURS test set is {WER}')

@@ -1,18 +1,6 @@
 print('importing load dataset')
-from datasets import load_dataset
-print('importing load from disk')
 from datasets import load_from_disk
 sampling_rate = 16000 # found in Fleurs paper
-
-def load_data(lang, streaming=False):
-    '''
-    Load Fleurs dataset from huggingface
-    :param link: dataset name
-    :param lang: langauge in format '[lang]_[region]' - 'cy_gb' or 'ca_es'
-    :return: loaded dataset
-    '''
-    dataset = load_dataset("google/fleurs", lang)
-    return dataset
 
 
 def get_stats(dataset):
@@ -35,8 +23,9 @@ def get_stats(dataset):
 
 if __name__ == '__main__':
 
-
     welsh_data_local = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
+    print('load from disk successful')
+    print('getting stats...')
     local_test_stats = get_stats(welsh_data_local)
     print('running stats with local test data...')
     print(f'number of pairs = {local_test_stats[0]}, number of hours = {local_test_stats[1]}')
