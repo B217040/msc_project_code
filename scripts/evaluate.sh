@@ -44,11 +44,12 @@ dt=$(date '+%d/%m/%Y %H:%M:%S')
 echo "Job started: $dt"
 ​
 # Load the required modules
+module load python/3.10.8-gpu
 source /work/tc046/tc046/pchamp/diss310/bin/activate
 ​
 COMMAND="python evaluation.py"
 echo "Running provided command: ${COMMAND}"
-eval "${COMMAND}" >> 'tiny_eval_log.txt'
+eval "${COMMAND}"
 echo "Command ran successfully!"
 ​
 # =========================
