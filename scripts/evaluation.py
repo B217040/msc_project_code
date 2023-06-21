@@ -1,9 +1,14 @@
 #! /usr/bin/python
 
+print('starting import')
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
+print('import transformers')
 from datasets import load_from_disk
+print('import datasets')
 import torch
+print('import torch')
 from evaluate import load
+print('import evaluate')
 
 def load_model(model_size):
     '''
@@ -45,12 +50,13 @@ def calculate_WER(result):
 if __name__ == '__main__':
 
     model_size = 'tiny'
+
     eval_data = load_from_disk("/work/tc046/tc046/pchamp/data/fleurs_welsh_test")
-
+    print('loaded data')
     processor, model = load_model(model_size)
-
+    print('loaded model')
     result = eval_data.map(make_prediction) #map applies function to all samples in dataset
-
+    print('result calculated')
     WER = calculate_WER(result)
 
     with open(f'/work/tc046/tc046/pchamp/results/whisper-{model_size}-results.txt', 'a') as f:
