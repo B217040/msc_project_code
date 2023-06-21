@@ -16,14 +16,10 @@ dt=$(date '+%d/%m/%Y %H:%M:%S')
 echo "Job started: $dt"
 
 # Load the required modules
-source /work/tc046/tc046/pchamp/diss310/bin/activate
 echo "modules are loaded"
 
-COMMAND="python evaluation.py"
+python evaluation.py
 
-echo "Running provided command: ${COMMAND}"
-eval "${COMMAND}"
-echo "Command ran successfully!"
 
 
 # =========================
