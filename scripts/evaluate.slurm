@@ -19,7 +19,7 @@ echo "Job started: $dt"
 source /work/tc046/tc046/pchamp/diss310/bin/activate
 echo "modules are loaded"
 
-COMMAND="python testimport.py"
+COMMAND="python evaluation.py"
 
 echo "Running provided command: ${COMMAND}"
 eval "${COMMAND}"
